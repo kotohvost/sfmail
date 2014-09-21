@@ -1,0 +1,111 @@
+
+ÄÄÄÄÄ 07 Apr 95  12:33:30, Sf-Arc [ver 0.1.1/gamma]
+  12:33:30 úùþMsg #241 (dest 2:5030/143.19)
+* 12:33:30 Packet size =1798447 bytes
+* 12:33:30 ÀÄ greater then crytical (30000b) - will be moved
+- 12:33:30 Moving packet 86FB0F68.MO0 into C:\LANG\TP6\PAS\FIDONET\ROUTE\BOXES\024t604f.0jH
+* 12:33:30 Semaphore created: C:\LANG\TP6\PAS\FIDONET\ROUTE\REPACK.FLG\024t604f.0j
+- 12:33:30 Msg #241 killed
+  12:33:30 úùþMsg #281 (dest 2:5030/143.2)
+* 12:33:30 Packet size =1087858 bytes
+* 12:33:30 ÀÄ greater then crytical (60000b) - will be moved
+- 12:33:30 Moving packet B1D4ED53.TU0 into C:\LANG\TP6\PAS\FIDONET\ROUTE\BOXES\024t604f.02H
+* 12:33:30 Semaphore created: C:\LANG\TP6\PAS\FIDONET\ROUTE\REPACK.FLG\024t604f.02
+- 12:33:30 Msg #281 killed
+  12:33:30 úùþMsg #3 (dest 2:5030/143.13)
+* 12:33:30 Packet size =27946 bytes
+* 12:33:30 ÀÄ less then crytical (40000b)
+  12:33:31 úùþMsg #533 (dest 2:5030/143.4)
+* 12:33:31 Packet size =42924 bytes
+* 12:33:31 ÀÄ less then crytical (50000b)
+  12:33:31 úùþMsg #534 (dest 2:5030/143.99)
+* 12:33:31 Packet size =55563 bytes
+* 12:33:31 ÀÄ greater then crytical (30000b) - will be moved
+- 12:33:31 Moving packet 4E228560.FR0 into C:\LANG\TP6\PAS\FIDONET\ROUTE\BOXES\024t604f.33H
+* 12:33:31 Semaphore created: C:\LANG\TP6\PAS\FIDONET\ROUTE\REPACK.FLG\024t604f.33
+- 12:33:31 Msg #534 killed
+  12:33:31 úùþMsg #535 (dest 2:5030/143.666)
+* 12:33:31 Packet size =4875 bytes
+* 12:33:31 ÀÄ less then crytical (40000b)
+  12:33:31 úùþMsg #537 (dest 135:7000/555.9)
+! 12:33:31 Unknown link: 135:7000/555.9 - msg ignored
+  12:33:31 úùþMsg #540 (dest 2:5030/143.9)
+* 12:33:31 Packet size =6377 bytes
+* 12:33:31 ÀÄ less then crytical (30000b)
+  12:33:31 úùþMsg #541 (dest 2:5030/143.17)
+* 12:33:31 Packet size =5784 bytes
+* 12:33:31 ÀÄ less then crytical (20000b)
+  12:33:31 úùþMsg #545 (dest 2:5030/143.74)
+* 12:33:31 Packet size =1587 bytes
+* 12:33:31 ÀÄ less then crytical (30000b)
+  12:33:32 úùþMsg #571 (dest 2:5030/143.12)
+* 12:33:32 Packet size =4190 bytes
+* 12:33:32 ÀÄ less then crytical (60000b)
+  12:33:32 úùþMsg #574 (dest 135:7000/555.2)
+! 12:33:32 Unknown link: 135:7000/555.2 - msg ignored
+: Scaned - 83; Killed - 3
+: Moved - 0 file(s), 0 
+  12:33:32 End
+
+ÄÄÄÄÄ 07 Apr 95  12:38:23, Sf-Arc [ver 0.1.1/gamma]
+  12:38:23 úùþMsg #241 (dest 2:5030/143.19)
+* 12:38:23 Packet size =1798447 bytes
+* 12:38:23 ÀÄ greater then crytical (30000b) - will be moved
+- 12:38:23 Moving packet 86FB0F68.MO0 into C:\LANG\TP6\PAS\FIDONET\ROUTE\BOXES\024t604f.0jH
+* 12:38:23 Semaphore created: C:\LANG\TP6\PAS\FIDONET\ROUTE\REPACK.FLG\024t604f.0j
+- 12:38:23 Msg #241 killed
+  12:38:23 úùþMsg #281 (dest 2:5030/143.2)
+* 12:38:23 Packet size =1087858 bytes
+* 12:38:23 ÀÄ greater then crytical (60000b) - will be moved
+- 12:38:23 Moving packet B1D4ED53.TU0 into C:\LANG\TP6\PAS\FIDONET\ROUTE\BOXES\024t604f.02H
+* 12:38:23 Semaphore created: C:\LANG\TP6\PAS\FIDONET\ROUTE\REPACK.FLG\024t604f.02
+- 12:38:23 Msg #281 killed
+  12:38:23 úùþMsg #3 (dest 2:5030/143.13)
+* 12:38:23 Packet size =27946 bytes
+* 12:38:23 ÀÄ less then crytical (40000b)
+  12:38:24 úùþMsg #533 (dest 2:5030/143.4)
+* 12:38:24 Packet size =42924 bytes
+* 12:38:24 ÀÄ less then crytical (50000b)
+  12:38:24 úùþMsg #534 (dest 2:5030/143.99)
+* 12:38:24 Packet size =55563 bytes
+* 12:38:24 ÀÄ greater then crytical (30000b) - will be moved
+- 12:38:24 Moving packet 4E228560.FR0 into C:\LANG\TP6\PAS\FIDONET\ROUTE\BOXES\024t604f.33H
+* 12:38:24 Semaphore created: C:\LANG\TP6\PAS\FIDONET\ROUTE\REPACK.FLG\024t604f.33
+- 12:38:24 Msg #534 killed
+  12:38:24 úùþMsg #535 (dest 2:5030/143.666)
+* 12:38:24 Packet size =4875 bytes
+* 12:38:24 ÀÄ less then crytical (40000b)
+  12:38:24 úùþMsg #537 (dest 135:7000/555.9)
+! 12:38:24 Unknown link: 135:7000/555.9 - msg ignored
+  12:38:24 úùþMsg #540 (dest 2:5030/143.9)
+* 12:38:24 Packet size =6377 bytes
+* 12:38:24 ÀÄ less then crytical (30000b)
+  12:38:24 úùþMsg #541 (dest 2:5030/143.17)
+* 12:38:24 Packet size =5784 bytes
+* 12:38:24 ÀÄ less then crytical (20000b)
+  12:38:24 úùþMsg #545 (dest 2:5030/143.74)
+* 12:38:24 Packet size =1587 bytes
+* 12:38:24 ÀÄ less then crytical (30000b)
+  12:38:25 úùþMsg #571 (dest 2:5030/143.12)
+* 12:38:25 Packet size =4190 bytes
+* 12:38:25 ÀÄ less then crytical (60000b)
+  12:38:25 úùþMsg #574 (dest 135:7000/555.2)
+! 12:38:25 Unknown link: 135:7000/555.2 - msg ignored
+: Scaned - 83; Killed - 3
+: Moved - 3 file(s), 2.81M
+  12:38:25 End
+
+ÄÄÄÄÄ 26 Apr 95  17:23:24, Sf-Arc [ver 0.1.2/gamma]
+  :  Messages scaned - 6; killed - 0
+  :  Files moved - 0 (0 )
+  17:23:25 End
+
+ÄÄÄÄÄ 28 Apr 95  20:31:30, Sf-Arc [ver 0.1.2/gamma]
+  :  Messages scaned - 6; killed - 0
+  :  Files moved - 0 (0 )
+  20:31:31 End
+
+ÄÄÄÄÄ 03 May 95  14:17:53, Sf-Arc [ver 0.1.2/gamma]
+  :  Messages scaned - 4; killed - 0
+  :  Files moved - 0 (0 )
+  14:17:53 End

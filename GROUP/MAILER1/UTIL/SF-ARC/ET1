@@ -1,0 +1,1 @@
+ if not ConfigInit(TMctl,tMailCtlPath+'t-Mail.ctl') then {*customize error-routine call*};

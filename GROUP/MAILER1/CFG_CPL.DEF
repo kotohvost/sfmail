@@ -1,0 +1,46 @@
+type
+ tOSid=record
+   osName:string[3];
+   osBit:word;
+ end;
+
+ tOS=(osOS2,osDV,osWIN,osWNT,osW95,osLNX,osDOS, osUnknown);
+
+const
+ AllOs=$FFFF;
+
+ OSid:array[osOS2..osDOS] of tOSid=(
+  (osName:'os2'; osBit:mtOS_2),
+  (osName:'dv';  osBit:mtDesQ),
+  (osName:'win'; osBit:mtWindows),
+  (osName:'wnt'; osBit:mtWinNT),
+  (osName:'w95'; osBit:mtWin95),
+  (osName:'lnx'; osBit:mtLinux),
+  (osName:'dos'; osBit:$3F8C)
+ );
+
+type
+ tArgument=(
+  taTimeArray,
+  taTimePeriod,
+  taAddress,
+  taInt,
+  taLong,
+  taByte,
+  taWord,
+  taHword,
+  taHbyte,
+  taString,
+  taPath,
+  taEMSIstring,
+  taSwitch,
+  taColor,
+  taZMode,
+  taRTQ
+ );
+
+ tWordRec=record
+   W:longint;
+   T:tArgument;
+   V:byte;      {Validator}
+ end;

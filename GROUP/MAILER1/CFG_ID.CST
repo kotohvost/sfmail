@@ -1,0 +1,273 @@
+const
+ (* VALIDATORS *)
+ vAllowReplace=$01;     {pазpешает замещение из события Set}
+ vEvalutePipe =$02;     {для стpоковых: добавляет `|' в конце}
+ vPipeTo0D0A  =$04;     {заменить `|' на <CR><LF>}
+ vLoCase      =$08;     {привести строку к нижнему регистру}
+ vUpCase      =$10;     {привести строку к верхнему регистру}
+
+{#SECTION# имена секций }
+ aSection:array[tsSystem..tsColors] of longint=(
+  $74EEB236, {System}
+  $89DEB5CC, {Station_Info}
+  $701FE079, {Directories}
+  $A6BFCAF9, {Files}
+  $59D673A4, {FReq_Support}
+  $00102AD5, {BBS}
+  $2329A543, {Xternal_Programs}
+  $B0BD6D5F, {Modem}
+  $5AC929C8, {Fax_Support}
+  $01BA84BD, {Miscellaneous}
+  $603C413D  {Colors}
+ );
+
+{#KEYWORD# ключи }
+   CfgWord:array[kwAMAsupport..kwSession_Log] of tWordRec=(
+
+   (*System*)
+    (W:$7DC84DFB; T:taString;V:$8),        {AMA_Support}
+    (W:$B7D0D3EB; T:taSwitch; V:0),        {Overlay_EMS}
+    (W:$94E02DFF; T:taSwitch; V:0),        {Overlay_XMS}
+    (W:$5422FF01; T:taWord; V:0),          {Time_Quant}
+    (W:$1A74859B; T:taRTQ; V:$8),          {ReleaseTQ_Method}
+    (W:$EB37E2CA; T:taTimePeriod; V:1),    {ZMH}
+    (W:$46006CCD; T:taInt;  V:1),          {UTC}
+
+   (*General_Info*)
+    (W:$B6AD4F75; T:taEMSIstring; V:0), {SysOp}
+    (W:$4E07C660; T:taEMSIstring; V:1), {Station}
+    (W:$347661A1; T:taEMSIstring; V:1), {Location}
+    (W:$7E90B1F2; T:taAddress;    V:0), {Address}
+    (W:$2268B0BB; T:taEMSIstring; V:1), {Phone}
+    (W:$BA33B69C; T:taEMSIstring; V:1), {Real_Speed}
+    (W:$F98E590F; T:taTimeArray;  V:1), {OH_Time}
+    (W:$45BEFAF4; T:taEMSIstring; V:1), {Flags}
+
+  (*Directories*)
+   (W:$8BBC139D; T:taPath; V:0),   {NetMail}
+   (W:$663C7985; T:taPath; V:0),   {Nodelist}
+   (W:$75C4A5B3; T:taPath; V:0),   {Packets}
+   (W:$08C495E9; T:taString; V:0), {Bink_Outbound}
+   (W:$9E7A6CDA; T:taPath; V:0),   {Swap}
+   (W:$D1F80DE1; T:taPath; V:0),   {Flags_Dir}
+   (W:$F41D6059; T:taString;V:0),  {MailBox}
+   (W:$21FD8D98; T:taPath; V:0),   {File_Boxes}
+   (W:$8E15566B; T:taPath; V:0),   {Secured_Inbound}
+   (W:$EACBADF0; T:taPath; V:0),   {SfM_Que_Path}
+   (W:$1DF9790D; T:taPath; V:0),   {Sf_Node_Path}
+   (W:$36CD6F2D; T:taPath; V:0),   {InBound}
+
+  (*Files*)
+   (W:$3A97C070; T:taString; V:0), {Log}
+   (W:$0B3283C4; T:taString; V:0), {DoorWay_Log}
+   (W:$E9D47D12; T:taString; V:0), {Passwords}
+   (W:$6908BAE2; T:taString; V:0), {RoutingList}
+   (W:$4989CDA0; T:taString; V:0), {EventsList}
+   (W:$1DC829CC; T:taString; V:0), {SubstList}
+
+  (*FReq_Support*)
+   (W:$42BD06C5; T:taString; V:1), {FR_Dir}
+   (W:$036E382D; T:taString; V:1), {FR_Alias}
+   (W:$79B8D84C; T:taString; V:1), {FR_Policy}
+   (W:$D7EA8C38; T:taTimeArray;V:1), {FR_Time}
+   (W:$4A577838; T:taString; V:1), {FR_Welcome}
+   (W:$0AF4643C; T:taWord;   V:1),   {FR_MaxTime}
+   (W:$F71274DD; T:taLong;   V:1), {FR_MinSpeed}
+   (W:$7ADC5906; T:taSwitch; V:1), {FR_Transit}
+   (W:$BC802A5C; T:taSwitch; V:1), {FR_Receipt}
+   (W:$8939A437; T:taString; V:1), {FR_Xternal}
+   (W:$F81D1728; T:taString; V:1), {FR_Response}
+   (W:$528E3FE0; T:taByte;   V:1), {FR_Files_Limit}
+   (W:$4D762C5A; T:taLong;   V:1), {FR_Daily_Limit}
+   (W:$BAFF624F; T:taLong;   V:1), {FR_Weekly_Limit}
+   (W:$F533AB15; T:taLong;   V:1), {FR_Monthly_Limit}
+
+  (*BBS*)
+   (W:$B0BA1F6D; T:taTimeArray; V:1), {BBS_Time}
+   (W:$E7AE7040; T:taString;     V:1), {User_Answer}
+   (W:$F897E0DA; T:taByte;      V:1), {Time_toBBS}
+   (W:$430FE8E9; T:taString;    V:1), {Process_BBS}
+   (W:$BC7DBFBD; T:taString;     V:1), {NoBBS_Answer}
+
+  (*Xternal_Programs*)
+   (W:$F5A7FE30; T:taString; V:1), {OS_Shell}
+   (W:$BEEA8470; T:taString; V:1), {Terminal}
+   (W:$B361D75B; T:taString; V:1), {Processes}
+   (W:$D42D1E52; T:taString; V:1), {Process_FAX}
+   (W:$358A584E; T:taString; V:1), {Process_Voice}
+   (W:$BC87C283; T:taString; V:1), {Msg_Editor}
+
+  (*Modem*)
+   (W:$5AFA1822; T:taByte;  V:0), {ComPort}
+   (W:$B3FC58D6; T:taSwitch;V:1), {Hardware_Ring}
+   (W:$88288DD8; T:taSwitch;V:0), {Modem_Lamps}
+   (W:$A422A33A; T:taByte;  V:0), {Refresh_ModemLamps}
+   (W:$9360FCCB; T:taString;V:3), {InitStr1}
+   (W:$2931F552; T:taString;V:3), {InitStr2}
+   (W:$BF01F225; T:taString;V:3), {InitStr3}
+   (W:$0A771459; T:taByte;  V:1), {InitTry}
+   (W:$71AD03AB; T:taByte;  V:1), {WaitCarrier_In}
+   (W:$0A407ADD; T:taByte;  V:1), {WaitCarrier_Out}
+   (W:$7B4B03CC; T:taWord;  V:1), {NoDial_Wait}
+   (W:$BEA1314D; T:taByte;  V:1), {Max_Ringing}
+   (W:$49E9082E; T:taByte;  V:1), {Answer_Ring}
+   (W:$E3EA1979; T:taWord;  V:1), {Ring_Pause}
+   (W:$353C17D5; T:taZMode; V:$9),{Default_ZMode}
+   (W:$E98D657E; T:taSwitch;V:1), {Allow_Hydra}
+   (W:$9F216B4B; T:taString;V:$11), {Hydra_Capability}
+   (W:$77438738; T:taSwitch;V:1), {InitModemAfterSession}
+   (W:$E17A5E46; T:taSwitch;V:0), {FossilDirect}
+   (W:$63B9649B; T:taString;V:3), {Statistic}
+   (W:$0901D9F0; T:taLong;  V:0), {Speed}
+   (W:$6A95D3F8; T:taString;V:2), {Modem_OK}
+   (W:$E58125FE; T:taString;V:1), {Modem_OK_Time}
+   (W:$DB916FCA; T:taString;V:3), {Modem_Answer}
+   (W:$CBF52896; T:taString;V:1), {Modem_Ring}
+   (W:$419B8EA6; T:taString;V:1), {Modem_NoCarrier}
+   (W:$487F456C; T:taString;V:1), {Modem_NoAnswer}
+   (W:$3FA96ED6; T:taString;V:1), {Modem_Busy}
+   (W:$85134C43; T:taString;V:1), {Modem_NoDial}
+   (W:$48862AAE; T:taString;V:1), {Modem_Ringing}
+   (W:$731A3562; T:taString;V:1), {Dial_Prefix}
+   (W:$231B3444; T:taString;V:3), {Dial_Suffix}
+   (W:$040D9FC8; T:taString;V:1), {HST_Prefix}
+   (W:$15E34353; T:taString;V:1), {H16_Prefix}
+   (W:$68E46611; T:taString;V:1), {H14_Prefix}
+   (W:$00C34529; T:taString;V:1), {ZYX_Prefix}
+   (W:$19F976A7; T:taString;V:1), {PEP_Prefix}
+   (W:$4AC3829A; T:taString;V:3), {Off_Hook}
+   (W:$F4B6CC12; T:taString;V:3), {On_Hook}
+   (W:$00CAF873; T:taString;V:1), {Valid}
+   (W:$5F5AD28A; T:taString;V:1), {Connect_FAX}
+   (W:$E6F74E58; T:taString;V:1), {Connect_Voice}
+   (W:$E24661B4; T:taString; V:1), {Connect_String}
+
+  (*Fax_Support*)
+   (W:$D5AF806D; T:taString; V:0), {FaxClass}
+   (W:$3610BD9A; T:taPath; V:1),   {Fax_Inbound}
+   (W:$4EDA14D7; T:taString; V:0), {Fax_Station}
+
+  (*Miscellaneous*)
+   (W:$156A31D0; T:taByte;  V:0), {KeepHistory}
+   (W:$7258D262; T:taWord;  V:1), {CPS_Threshold_1}
+   (W:$6B9CBF65; T:taWord;  V:1), {CPS_Threshold_5}
+   (W:$3C34E7D8; T:taLong;  V:1), {SessionLimit_In}
+   (W:$BE9964D5; T:taLong;  V:1), {SessionLimit_Out}
+   (W:$DD66CD8B; T:taInt;   V:1), {ArcMail_Threshold}
+   (W:$2E7A4F19; T:taLong;  V:1), {Min_Baud_In}
+   (W:$B8401C26; T:taLong;  V:1), {Min_Baud_Out}
+   (W:$C3D73A79; T:taInt;   V:1), {Commit_Size}
+   (W:$0137DCB2; T:taSwitch;V:0), {CacheLog}
+   (W:$4039DAAC; T:taSwitch;V:1), {Hold_RX_on_DiskIO}
+   (W:$2C804C78; T:taWord;  V:1), {HIP_Time}
+   (W:$364F7FA2; T:taSwitch;V:0), {Poll_Kbd}
+   (W:$0F5DDAD8; T:taLong;  V:1), {Min_DiskSpace}
+   (W:$8BB7FAA6; T:taInt;   V:1), {RescanPeriod}
+   (W:$9009408F; T:taByte;  V:1), {Bink_Rescan}
+   (W:$159195D2; T:taWord;  V:1), {CallPeriod}
+   (W:$89F5D300; T:taByte;  V:1), {Call_Tries}
+   (W:$5D1F9959; T:taLong;  V:1), {ScrSaver_Time}
+   (W:$34AE8DB6; T:taString;V:1), {SfM_Password}
+   (W:$0E99BCDE; T:taString;V:1), {DoorWay_Password}
+   (W:$D502CAD0; T:taSwitch;V:1), {IncTry_on_Busy}
+   (W:$0188ABD6; T:taSwitch;V:1), {IncTry_on_NoCarrier}
+   (W:$2774D9A6; T:taSwitch;V:1), {IncTry_on_NoDial}
+   (W:$4DB0A223; T:taSwitch;V:1), {IncTry_on_NoAnswer}
+   (W:$23DC0D35; T:taString;V:0), {Msg_Track}
+   (W:$43B5D658; T:taString;V:$8),{RobotName}
+   (W:$0A830E64; T:taString;V:0), {BroadCast}
+   (W:$EF86E17B; T:taString;V:0), {Repack_Semaphore}
+   (W:$49A46107; T:taSwitch;V:1), {Advanced_Routing}
+   (W:$7215E14D; T:taSwitch;V:1), {HoldOnUs}
+   (W:$A5E5C211; T:taString;V:1), {BinkPollExtension}
+   (W:$EB53F076; T:taAddress;V:1), {Synchronize_Time}
+   (W:$F44105B4; T:taHWord; V:1), {SoundControl}
+
+  (*Colors*)
+   (W:$000475CE; T:taSwitch; V:0), {Blinking}
+
+   (W:$FF460CCE; T:taColor; V:1), {Border_Color}
+   (W:$9A5F5923; T:taColor; V:1), {Date_Color}
+   (W:$F1CC0D0A; T:taColor; V:1), {Header_Color}
+   (W:$006A8EF5; T:taColor; V:1), {Stat_Color}
+   (W:$5FE648B6; T:taColor; V:1), {Indicators}
+   (W:$E372F093; T:taColor; V:1), {Info_Color}
+   (W:$B55510A1; T:taColor; V:1), {LastCall_Color}
+
+   (W:$559C9D01; T:taColor; V:1), {Modem_Color}
+   (W:$5E08354E; T:taColor; V:1), {MainLog_Color}
+
+   (W:$8D487B5A; T:taColor; V:1), {qm_Window}
+   (W:$27DA6A16; T:taColor; V:1), {qm_Border}
+   (W:$9119EDBF; T:taColor; V:1), {qm_Header}
+   (W:$9C92066E; T:taColor; V:1), {qm_NormalAddr}
+   (W:$C347DA58; T:taColor; V:1), {qm_ActiveAddr}
+   (W:$02932FA7; T:taColor; V:1), {qm_Undialable}
+   (W:$AE915053; T:taColor; V:1), {qm_Marker}
+   (W:$AC3F8B77; T:taColor; V:1), {qm_UndialMarker}
+   (W:$21584977; T:taColor; V:1), {qm_ActiveMarker}
+   (W:$9FC99452; T:taColor; V:1), { qm_HXTattr}
+   (W:$8965EF3B; T:taColor; V:1), { qm_HRQattr}
+   (W:$F0A408CA; T:taColor; V:1), {qm_ImmAttr}
+   (W:$D3D022E4; T:taColor; V:1), {qm_PrioAttr}
+   (W:$E1A7686A; T:taColor; V:1), {qm_HoldAttr}
+
+   (W:$50E8D308; T:taColor; V:1), {nv_Window}
+   (W:$2BA25D45; T:taColor; V:1), {nv_Legend}
+   (W:$EEEBC90B; T:taColor; V:1), {nv_AcceptCalls}
+   (W:$7CCB3871; T:taColor; V:1), {nv_AcceptFReqs}
+   (W:$FA7AC244; T:taColor; V:1), {nv_Border}
+   (W:$77B5D71D; T:taColor; V:1), {nv_Table}
+   (W:$4CB945ED; T:taColor; V:1), {nv_Header}
+   (W:$AFEA5AEF; T:taColor; V:1), {nv_WeekEnd}
+   (W:$7A985D79; T:taColor; V:1), {nv_WorkDay}
+   (W:$EFBFB691; T:taColor; V:1), {nv_Protected}
+   (W:$DB8CD0F7; T:taColor; V:1), {nv_Unprotected}
+   (W:$590F6C6C; T:taColor; V:1), {nv_Unlisted}
+   (W:$E2D9552E; T:taColor; V:1), {nv_InfoLine1}
+   (W:$58885CB7; T:taColor; V:1), {nv_InfoLine2}
+   (W:$CEB85BC0; T:taColor; V:1), {nv_InfoLine3}
+   (W:$9C13E636; T:taColor; V:1), {nv_Labels}
+   (W:$DA874EFF; T:taColor; V:1), {nv_DialInfo}
+
+   (W:$C6C05F9E; T:taColor; V:1), {hv_Header}
+   (W:$7003D837; T:taColor; V:1), {hv_Border}
+   (W:$F0BCB8DB; T:taColor; V:1), {hv_Table}
+   (W:$5ADC4455; T:taColor; V:1), {hv_TableHat}
+   (W:$1CBC8B0A; T:taColor; V:1), {hv_SessInfo}
+   (W:$8D6C1C0D; T:taColor; V:1), {hv_StatusErr}
+   (W:$B2F382EF; T:taColor; V:1), {hv_StatusOk}
+   (W:$75173194; T:taColor; V:1), {hv_Help}
+   (W:$CAEA9909; T:taColor; V:1), {hv_HotKeys}
+   (W:$D863A556; T:taColor; V:1), {hv_WarnKeys}
+   (W:$99C56F45; T:taColor; V:1), {hv_ScrollBar}
+   (W:$B3CCFD65; T:taColor; V:1), {hv_ScrollBarArrows}
+
+   (W:$FACEBBCD; T:taColor; V:1), {pl_Border}
+   (W:$4C0D3C64; T:taColor; V:1), {pl_Header}
+   (W:$939DD175; T:taColor; V:1), {pl_Item}
+   (W:$73858188; T:taColor; V:1), {pl_Marker}
+   (W:$4612E830; T:taColor; V:1), {pl_ScrollBarPage}
+   (W:$3A999D7C; T:taColor; V:1), {pl_ScrollBarIcons}
+
+   (W:$D19E6157; T:taColor; V:1), {Session_Border}
+   (W:$675DE6FE; T:taColor; V:1), {Session_Header}
+   (W:$82CE07F2; T:taColor; V:1), {Session_Info}
+   (W:$C5C911B5; T:taColor; V:1), {Session_File}
+   (W:$A03B7880; T:taColor; V:1), {Session_Param}
+   (W:$000F190D; T:taColor; V:1)  {Session_Log}
+  );
+
+ SectionInterval:array[tsSystem..tsColors] of tSectionInterval=(
+  (R:kwAMAsupport;      L:kwUTC),
+  (R:kwSysOp;           L:kwFlags),
+  (R:kwNetMail;         L:kwInbound),
+  (R:kwLog;             L:kwSubstList),
+  (R:kwFReqDirs;        L:kwFR_Monthly_Limit),
+  (R:kwBBS_Time;        L:kwNoBBS_Answer),
+  (R:kwOS_Shell;        L:kwMsg_Editor),
+  (R:kwComPort;         L:kwConnect_Str),
+  (R:kwFaxClass;        L:kwFaxStation),
+  (R:kwKeepHistory;     L:kwSoundControl),
+  (R:kwBlinking;        L:kwSession_Log)
+ );

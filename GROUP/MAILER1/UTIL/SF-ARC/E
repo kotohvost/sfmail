@@ -1,0 +1,8 @@
+    then with TAcfg do
+     Case CfgErrorCode of
+      5000: TAshowError('Unknown word `'+LastCtlWord+#$27,
+             'Line #'+Long2str(CfgLine),true);
+      5001: TAshowError('Invalid argument for `'+LastCtlWord+#$27,
+             'Line #'+Long2str(CfgLine),true);
+     else ForceDosError(CfgErrorCode,CfgName,true);
+     end;

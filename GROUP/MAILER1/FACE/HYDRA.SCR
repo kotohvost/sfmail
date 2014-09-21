@@ -1,0 +1,37 @@
+
+
+
+         ษออออออออออออออออน Inbound session (Hydra) ฬออออออออ[ 3045]อป
+         บ Santa Fox Main BBS, Line#1                     2:5030/142 บ
+         บ Alexey Solomonov                            St.Petersburg บ
+         บ Using: SF-Mail 1.04beta0509     16800,CM,MO,H16,OS/2,Beer บ
+         ฬออ[TX: 1024/32676 ]ออ[Cur: 1024/4096 ]ออ[RX: 1024/32676 ]ออน
+         บ Send   :  25.17k of  134.6k   Recv   :   0.00k of  12.42k บ
+         ฬอออออออออออออออออออออออออออออหอออออออออออออออออออออออออออออน
+         บ Send   : 00001FG4.MO1  N/32 บ Recv   : F234DF56.TU0  C/32 บ
+         บ Size   : 1242345       2048 บ Size   : 1234524       1024 บ
+         บ Pos    : 1023345        93% บ Pos    : 324567         17% บ
+         บ Time   : 00:12:33           บ Time   : 00:14:33           บ
+         บ Left   : 00:03:56           บ Left   : 00:10:56           บ
+         บ CPS    : 1674  (112%)       บ CPS    : 1234  ( 97%)       บ
+         ฬอออ[ÛÛÛÛÛÛÛÛÛÛÜÜÜÜÜÜÜ๚๚๚]ออออสอออ[ÛÛÛÛÛÛ฿฿฿฿฿฿฿฿๚๚๚๚๚๚]ออออน
+         บ Begin batch transfer ...                                  บ
+         บ HSend-32 file: E:\BBS\OUTBOUND\F234DF56.TU0 (1234524)     บ
+         บ HReceive-32 file: E:\BBS\Inbound\00001FG4.MO1 (1242345)   บ
+         บ Recv: Bad CRC, pos 989998 (Try #9)                        บ
+         บ Send: Bad CRC, pos 123445 (Try #9)                        บ
+         ศอออออออออออน CONNECT 14400/ARQ/LAPM/V32/V42BIS ฬอออออออออออผ
+
+
+
+
+
+
+
+
+
+
+
+
+
+

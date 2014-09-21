@@ -1,0 +1,5 @@
+    then with TMctl do
+     if (CfgErrorCode <>5000)and(CfgErrorCode <>5001) then
+       ForceDosError(CfgErrorCode,CfgName,true)
+     else
+  else

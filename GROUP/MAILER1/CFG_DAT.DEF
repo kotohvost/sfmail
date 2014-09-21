@@ -1,0 +1,73 @@
+const
+ DefaultSfMColors:array[tSfMailColors] of byte=(
+   $02,            { Border_Color  }
+   $0E,            { Date_Color    }
+   $0C,            { Header_Color  }
+   $02,            { Stat_Color    }
+   $02,            { Indicators    }
+   $0F,            { Info_Color    }
+   $07,            { LastCall_Color}
+
+   $07,            { Modem_Color    }
+   $03,            { MainLog_Color  }
+
+   $07,            { qm_Window}
+   $03,            { qm_Border}
+   $0B,            { qm_Header}
+   $07,            { qm_NormalAddr}
+   $0F,            { qm_ActiveAddr}
+   $0C,            { qm_Undialable}
+   $17,            { qm_Marker}
+   $1C,            { qm_UndialMarker}
+   $1F,            { qm_ActiveMarker}
+   $05,            { qm_HXTattr}
+   $05,            { qm_HRQattr}
+   $0E,            { qm_ImmAttr}
+   $0F,            { qm_PrioAttr}
+   $05,            { qm_HoldAttr}
+
+   $07,            { nv_Window}
+   $03,            { nv_Legend}
+   $0A,            { nv_AcceptCalls}
+   $01,            { nv_AcceptFReqs}
+   $03,            { nv_Border}
+   $07,            { nv_Table}
+   $0B,            { nv_Header}
+   $0C,            { nv_WeekEnd}
+   $0F,            { nv_WorkDay}
+   $0C,            { nv_Protected}
+   $0A,            { nv_Unprotected}
+   $8C,            { nv_Unlisted}
+   $0F,            { nv_InfoLine1}
+   $07,            { nv_InfoLine2}
+   $0E,            { nv_InfoLine3}
+   $0B,            { nv_Labels}
+   $07,            { nv_DialInfo}
+
+   $1E,            { hv_Header         }
+   $03,            { hv_Border         }
+   $03,            { hv_Table          }
+   $0F,            { hv_TableHat       }
+   $07,            { hv_SessInfo       }
+   $0C,            { hv_StatusErr      }
+   $0A,            { hv_StatusOk       }
+   $03,            { hv_Help           }
+   $0F,            { hv_HotKeys        }
+   $0E,            { hv_WarnKeys       }
+   $1E,            { hv_ScrollBar      }
+   $1C,            { hv_ScrollBarArrows}
+
+   $87,            { pl_Border}
+   $8F,            { pl_Header}
+   $87,            { pl_Item  }
+   $70,            { pl_Marker}
+   $87,            { pl_ScrollBarPage}
+   $8B,            { pl_ScrollBarIcons}
+
+   $1E,            { Session_Border }
+   $1F,            { Session_Header }
+   $1A,            { Session_Info   }
+   $1B,            { Session_File   }
+   $1F,            { Session_Param  }
+   $17             { Session_Log    }
+ );

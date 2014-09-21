@@ -1,0 +1,53 @@
+0000000       Anton the Deinow     2:5030/143.1
+0000001       Anton the Deinow     2:5030/143
+0000002       Natalya Skukina      2:5030/142.44
+0000003       AutoPilot            31:3030/1
+0000004       Alexey Solomonov     2:5030/142
+0000005       Konstantin Kozlov    2:5030/103
+0000006     * Oleg Tonkikh         2:5020/698             (Москва)
+0000007     * Andrew Tkachenko     2:461/555              (Хаpьков)
+0000008     - Dmitry Ermolaev      2:5057/19              (Самаpа)
+0000010       Stas Mehanoshin      2:5030/143.23
+0000011       Dmitry Nikitin       31:3020/1              (Москва МВД РФ)
+0000012     * Alex Below           2:5020/441.18          (Москва)
+0000022     + Vlad Yakovenko       2:5030/142.2
+0000031     - AdedNet #1           2:5057/19              (Самаpа)
+0000032     - AdedNet #2           2:5057/19              (Самаpа)
+0000033     - AdedNet #3           2:5057/19              (Самаpа)
+0000034     - AdedNet #4           2:5057/19              (Самаpа)
+0000035     - AdedNet #5           2:5057/19              (Самаpа)
+0000036     - AdedNet #6           2:5057/19              (Самаpа)
+0000044       Alexey Solomonov     2:5030/142.4
+0000100     * Arkadiy Philipovich  2:5030/103.100
+0000274     * Igor Prokofev        2:5030/274
+0000316     * Kosty Rudoy          2:5030/316
+0000353     + Konstantin Andreev   2:5030/353
+0000531     * Sergey Erechinsky    2:5030/531             -------
+0000777       Vadim Baranovsky     2:5030/142.15
+0001000     * Sergey Petrov        2:5057/18.13           (Самаpа) (пеp+)
+0001001     * Vladimir Kvitnitskiy 2:5057/20.8            (Самаpа)
+0001002     * Alexander Alferovich 2:5031/7.3                      (пеp+)
+0001003     * Alex Zinchenko       2:468/28
+0001004       Jora Serebrakov      2:5030/489.23
+0001005     + Dmitry Nikitochkin   135:7000/3
+0001006     * Ilia Krel            2:5063/18.8            (Hовоpосийск) (пеp)
+0001007     * Alex Tsourikov       2:5030/172
+0001008     * Alex Kapralov Jr.    2:5030/316.30
+0001009    /* Stanislaw Kudruavcev 2:5030/527.1
+0001010       Nikita Olennikov     2:5030/168.35          (пеpевод конфигов)
+0001011     * Rafael Manasyan      2:5020/???             (2:5020/698)
+0001012     * Serge Yuriev         2:5020/???             (2:5020/698)
+0001013       Serge Matveev        2:5030/182             (Inet)
+0001014     * Ruslan Muzalevsky    2:4666/13
+0001015       Serge Bryxin         2:5030/133.26          (Hаклейка)
+0001016     * Victor Pomortseff    2:5080/68.12           (Екатеpинбуpг) (пеp)
+0001017     * Sergey F. Geleznov   2:5049/30.23           (Казань)
+
+USA:
+
+USA-001     + Steve Quarrella      1:124/9005             (USA)
+
+(+)  - beer
+(*)  - $20
+(-)  - $40
+

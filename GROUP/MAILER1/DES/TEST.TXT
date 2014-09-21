@@ -1,0 +1,476 @@
+
+;********************************************************************
+;--------------------------------------------------------------------
+;
+;                     ШИФРОВАНИЕ/ДЕШИФРОВАНИЕ
+;
+;--------------------------------------------------------------------
+;********************************************************************
+
+
+;Начальная перестановка IP шифруемого блока
+;Input:  DS:SI - указатель исходной 8 байтной последовательности
+;Output: AX:BX - блок L0
+;        CX:DX - блок R0
+;Разрушает: AX,BX,CX,DX,SI,DI
+
+macro   IP
+        local IP_L10
+
+        sub     ax,ax
+        mov     bx,ax
+        mov     cx,ax
+        mov     dx,ax
+        mov     di,ax
+        mov     ah,80h  ;хитрый счетчик на 8 проходов
+
+IP_L10:
+        lodsb           ;загрузка очередного байта
+        shl     al,1    ;Формирование байтов
+                        ;выходного блока
+        rcr     ch,1    ;5-й байт
+        shl     al,1
+        rcr     bh,1    ;1-й байт
+        shl     al,1
+        rcr     cl,1    ;6-й байт
+        shl     al,1
+        rcr     bl,1    ;2-й байт
+        shl     al,1
+        rcr     dh,1    ;7-й байт
+        shl     al,1
+        rcr     di,1    ;3-й байт
+        shl     al,1
+        rcr     dl,1    ;8-й байт
+        shl     al,1
+        rcr     ah,1    ;4-й байт
+        jnc     IP_L10
+
+        mov     si,bx   ;Размещение преобразованного
+        mov     bx,di   ;блока в выходных регистрах
+        mov     bl,ah
+        mov     ax,si
+
+endm IP
+
+;─────────────────────────────────────────────────────────────────────
+
+;Преобразование E
+;Input:  CX:DX - блок R
+;Output: AH:CH:AL:CL:старший байт DI:DH:
+;        младший байт DI:DL <-> B1:B2:B3:B4:B5:B6:B7:B8
+;Разрушает: AX,CX,DX,DI
+
+macro   E
+
+        mov     ax,cx           ;AX:DI = CX:DX = Ri
+        mov     di,dx
+        shl     dx,1            ;Циклический сдвиг Ri влево
+        rcl     cx,1
+        adc     dx,0
+        and     dx,3F3Fh        ;Формирование 6-разрядных
+        and     cx,3F3Fh        ;блоков
+        shr     ax,1            ;Циклический сдвиг Ri вправо
+        rcr     di,1
+        rcl     ax,1
+        ror     ax,1
+        shr     ax,2            ;Формирование 6-разрядных блоков
+        and     ax,3F3Fh
+        shr     di,2
+        and     di,3F3Fh
+
+endm    E
+
+;─────────────────────────────────────────────────────────────────────
+
+;Исключающее ИЛИ результата преобразования E с ключом
+;Input:  AX:CX:DI:DX - результат преобразования E
+;        ES:SI -> Ki
+;Output: AH:CH:AL:CL: старший байт DI:DH:
+;        младший байт DI:DL <-> B1:B2:B3:B4:B5:B6:B7:B8
+;        после сложения с ключом, тоесть вход матриц Si
+;Разрушает: AX,CX,DX,DI
+
+macro   XOR_WITH_KEY
+
+%       xor     ax,[ES_ si]
+%       xor     cx,[ES_ (si+2)]
+%       xor     di,[ES_ (si+4)]
+%       xor     dx,[ES_ (si+6)]
+
+endm    XOR_WITH_KEY
+
+;─────────────────────────────────────────────────────────────────────
+
+;Преобразование с помощью матриц Si
+;Input:  AX:CX:DI:DX - результат сложения преобразования E с ключом
+;Output: AX:BX - результат преобразования с помощью матриц Si
+;Разрушает: AX,BX,CX
+
+macro   S
+
+        sub     bx,bx
+        mov     bl,ah
+        mov     ah,[bx+S1]
+        mov     bl,ch
+        or      ah,[bx+S2]              ;AH = S1:S2
+        mov     bl,al
+        mov     al,[bx+S3]
+        mov     bl,cl
+        or      al,[bx+S4]              ;AL = S3:S4
+        mov     cx,di
+        mov     bl,ch
+        mov     ch,[bx+S5]
+        mov     bl,dh
+        or      ch,[bx+S6]              ;CH = S5:S6
+        mov     bl,cl
+        mov     cl,[bx+S7]
+        mov     bl,dl
+        or      cl,[bx+S8]              ;CL = S7:S8
+        mov     bx,cx                   ;BX = S5:S6:S7:S8
+
+endm    S
+
+;─────────────────────────────────────────────────────────────────────
+
+;Перестановка P
+;Input:  AX:BX - результат преобразования с поиощью матриц Si
+;Output: CX:DX - результат перестановки P
+;Разрушает: AX,BX,CX,DX
+
+macro   P
+
+        sub     cx,cx
+        mov     dx,cx
+        rol     ah,1
+        rcl     cl,1            ;Байт 2, бит 1
+        rol     ah,1
+        rcl     dh,1            ;Байт 3, бит 1
+        ror     ah,3
+        rcl     dh,1            ;Байт 3, бит 2
+        ror     bh,1
+        rcl     dh,1            ;Байт 3, бит 3
+        ror     al,1
+        rcl     ch,1            ;Байт 1, бит 1
+        ror     al,1
+        rcl     cl,1            ;Байт 2, бит 2
+        ror     al,1
+        rcl     dh,1            ;Байт 3, бит 4
+        ror     ah,1
+        rcl     ch,1            ;Байт 1, бит 2
+        ror     bh,1
+        rcl     cl,1            ;Байт 2, бит 3
+        rol     bh,5
+        rcl     dl,1            ;Байт 4, бит 1
+        rol     bh,1
+        rcl     ch,1            ;Байт 1, бит 3
+        rol     bh,1
+        rcl     ch,1            ;Байт 1, бит 4
+        ror     al,1
+        rcl     dl,1            ;Байт 4, бит 2
+        ror     bl,1
+        rcl     dh,1            ;Байт 3, бит 5
+        ror     bl,2
+        rcl     dl,1            ;Байт 4, бит 3
+        ror     bl,1
+        rcl     ch,1            ;Байт 1, бит 5
+        ror     al,1
+        rcl     ch,1            ;Байт 1, бит 6
+        ror     bl,1
+        rcl     ch,1            ;Байт 1, бит 7
+        ror     bl,1
+        rcl     dh,1            ;Байт 3, бит 6
+        ror     bl,1
+        rcl     cl,1            ;Байт 2, бит 4
+        ror     ah,1
+        rcl     dl,1            ;Байт 4, бит 4
+        ror     ah,1
+        rcl     cl,1            ;Байт 2, бит 5
+        rol     bh,1
+        rcl     dl,1            ;Байт 4, бит 5
+        ror     al,1
+        rcl     dl,1            ;Байт 4, бит 6
+        ror     ah,1
+        rcl     dl,1            ;Байт 4, бит 7
+        ror     ah,1
+        rcl     dh,1            ;Байт 3, бит 7
+        ror     bl,1
+        rcl     dl,1            ;Байт 4, бит 8
+        rol     bh,3
+        rcl     ch,1            ;Байт 1, бит 8
+        rol     bh,1
+        rcl     cl,1            ;Байт 2, бит 6
+        ror     bl,2
+        rcl     cl,1            ;Байт 2, бит 7
+        ror     al,1
+        rcl     cl,1            ;Байт 2, бит 8
+        ror     al,1
+        rcl     dh,1            ;Байт 3, бит 8
+
+endm    P
+
+;─────────────────────────────────────────────────────────────────────
+
+;исключающее ИЛИ результата функции F с L(i-1)
+;Input:  AX:BX - L(i-1)
+;        CX:DX - F( R(i-1), Ki )
+;Output: CX:DX - Ri
+;Разрушает: CX,DX
+
+macro   XOR_L_F
+
+        xor     cx,ax
+        xor     dx,bx
+
+endm    XOR_L_F
+
+;─────────────────────────────────────────────────────────────────────
+
+;Обратная перестановка IP шифруемого блока
+;Input:  CX:DX:AX:BX -переставляемые данные ( R16:L16 )
+;        ES:DI - адрес области сохранения зашифрованного сообщения
+;Output: защифрованное сообщение помещано в память (куда указывал ES:DI)
+;Разрушает: AX,BX,CX,DX,SI,DI,BP
+
+macro   DIS_IP
+        local DIS_IP_L10, SELFMODIF
+
+        mov     si,ax
+        mov     bp,8            ;Счетчик цикла
+
+DIS_IP_L10:                     ;Формирование байтов выходного блока
+        shr     dl,1
+        rcr     al,1            ;4-й байт
+        shr     bl,1
+        rcr     al,1            ;8-й байт
+        shr     dh,1
+        rcr     al,1            ;3-й байт
+        shr     bh,1
+        rcr     al,1            ;7-й байт
+        shr     cl,1
+        rcr     al,1            ;2-й байт
+        shr     si,1
+        rcr     al,1            ;6-й байт
+        shr     ch,1
+        rcr     al,1            ;1-й байт
+        shr     ah,1
+        rcr     al,1            ;5-й байт
+        stosb                   ;Запись зашифрованного байта
+        dec     bp
+        jnz     DIS_IP_L10
+
+endm    DIS_IP
+
+;─────────────────────────────────────────────────────────────────────
+
+
+
+
+;********************************************************************
+;--------------------------------------------------------------------
+;
+;                         СОЗДАНИЕ КЛЮЧЕЙ
+;
+;--------------------------------------------------------------------
+;********************************************************************
+
+
+;Начальная перестановка ключей PC1
+;Input:  DS:SI - указатель исходного восмибайтового ключа
+;Output: BX:AX - блок D0
+;        CX:DX - блок C0
+;Разрушает: AX,BX,CX,DX,SI
+
+macro   PC1
+        local PC1_L10
+
+        sub     ax,ax
+        mov     bx,ax
+        mov     cx,ax
+        mov     dx,ax
+        mov     bh,80h          ;Хитрый счетчик
+
+PC1_L10:
+        lodsb                   ;Читаем байт ключа
+        shl     al,1
+        rcr     ch,1            ;1-й байт C0
+        shl     al,1
+        rcr     cl,1            ;2-й байт C0
+        shl     al,1
+        rcr     dh,1            ;3-й байт C0
+        shl     al,1
+        rcr     dl,1            ;4-й полубайт C0 и D0
+        shl     al,1
+        rcr     ah,1            ;3-й байт D0
+        shl     al,1
+        rcr     bl,1            ;2-й байт D0
+        shl     al,1
+        rcr     bh,1            ;1-й байт D0
+        jnc     PC1_L10
+
+        mov     al,dl
+        shl     al,4
+        and     dl,0F0h
+
+endm    PC1
+
+;─────────────────────────────────────────────────────────────────────
+
+;Циклический сдвиг ключей
+;Input:  CX:DX - блок C(i-1)
+;        BX:AX - блок D(i-1)
+;        SI - побитно кодирует количество сдвигов
+;Output: CX:DX - блок Ci
+;        BX:AX - блок Di
+;Разрушает: AX,BX,CX,DX,SI
+
+macro   ROL_KEY
+        local ROL_KEY_L10
+
+        and     dl,0F0h         ;28-разрядный циклический
+        shl     dx,1            ;левый сдвиг C0
+        rcl     cx,1
+        adc     dl,0Fh
+        and     al,0F0h         ;28-разрядный циклический
+        shl     ax,1            ;левый сдвиг D0
+        rcl     bx,1
+        adc     al,0Fh
+        shr     si,1            ;признак количества сдвигов
+        jc      ROL_KEY_L10
+
+        and     dl,0F0h         ;28-разрядный циклический
+        shl     dx,1            ;левый сдвиг C0
+        rcl     cx,1
+        adc     dl,0Fh
+        and     al,0F0h         ;28-разрядный циклический
+        shl     ax,1            ;левый сдвиг D0
+        rcl     bx,1
+        adc     al,0Fh
+
+ROL_KEY_L10:
+        and     dl,0F0h
+        and     al,0F0h
+endm    ROL_KEY
+
+;─────────────────────────────────────────────────────────────────────
+
+;Перестановка PC2 для блока Ci
+;Input:  CX:DX - блок Ci
+;Output: BX:AX - перестановка блока Ci
+;Разрушает: AX,BX,CX,DX
+
+macro   PC2_FOR_C
+
+        sub     ax,ax
+        mov     bx,ax
+        ror     cl,1
+        rcl     al,1            ;Байт 4, бит 3
+        ror     ch,2
+        rcl     al,1            ;Байт 4, бит 4
+        ror     ch,4
+        rcl     ah,1            ;Байт 2, бит 3
+        ror     dh,2
+        rcl     bl,1            ;Байт 3, бит 3
+        rol     dl,3
+        rcl     al,1            ;Байт 4, бит 5
+        rol     dl,1
+        rcl     ah,1            ;Байт 2, бит 4
+        ror     cl,1
+        rcl     ah,1            ;Байт 2, бит 5
+        ror     cl,1
+        rcl     bh,1            ;Байт 1, бит 3
+        ror     dh,3
+        rcl     al,1            ;Байт 4, бит 6
+        ror     dh,1
+        rcl     bl,1            ;Байт 3, бит 4
+        ror     dh,2
+        rcl     bh,1            ;Байт 1, бит 4
+        ror     cl,1
+        rcl     al,1            ;Байт 4, бит 7
+        ror     cl,1
+        rcl     bl,1            ;Байт 3, бит 5
+        ror     cl,1
+        rcl     bh,1            ;Байт 1, бит 5
+        ror     dh,1
+        rcl     bh,1            ;Байт 1, бит 6
+        ror     ch,1
+        rcl     al,1            ;Байт 4, бит 8
+        ror     ch,1
+        rcl     bh,1            ;Байт 1, бит 7
+        ror     ch,3
+        rcl     ah,1            ;Байт 2, бит 6
+        ror     ch,1
+        rcl     bh,1            ;Байт 1, бит 8
+        ror     ch,1
+        rcl     bl,1            ;Байт 3, бит 6
+        ror     dl,3
+        rcl     bl,1            ;Байт 3, бит 7
+        ror     dh,3
+        rcl     ah,1            ;Байт 2, бит 7
+        ror     cl,1
+        rcl     ah,1            ;Байт 2, бит 8
+        ror     ch,4
+        rcl     bl,1            ;Байт 3, бит 8
+
+endm    PC2_FOR_C
+
+;─────────────────────────────────────────────────────────────────────
+
+;Перестановка PC2 для блока Di
+;Input:  CX:DX - блок Di
+;Output: BX:AX - перестановка блока Di
+;Разрушает: AX,BX,CX,DX
+
+macro   PC2_FOR_D
+
+        sub     ax,ax
+        mov     bx,ax
+        ror     cl,1
+        rcl     bl,1            ;Байт 3, бит 3
+        rol     ch,2
+        rcl     ah,1            ;Байт 2, бит 3
+        rol     dh,2
+        rcl     al,1            ;Байт 4, бит 3
+        ror     cl,2
+        rcl     al,1            ;Байт 4, бит 4
+        ror     cl,1
+        rcl     bh,1            ;Байт 1, бит 3
+        ror     cl,1
+        rcl     ah,1            ;Байт 2, бит 4
+        rol     dh,3
+        rcl     bl,1            ;Байт 3, бит 4
+        rol     dh,1
+        rcl     al,1            ;Байт 4, бит 5
+        rol     dh,1
+        rcl     ah,1            ;Байт 2, бит 5
+        rol     dh,1
+        rcl     bh,1            ;Байт 1, бит 4
+        rol     dh,1
+        rcl     ah,1            ;Байт 2, бит 6
+        ror     cl,1
+        rcl     bl,1            ;Байт 3, бит 5
+        rol     ch,1
+        rcl     bh,1            ;Байт 1, бит 5
+        ror     cl,2
+        rcl     bh,1            ;Байт 1, бит 6
+        rol     dh,2
+        rcl     bh,1            ;Байт 1, бит 7
+        rol     dl,3
+        rcl     bh,1            ;Байт 1, бит 8
+        rol     dl,1
+        rcl     bl,1            ;Байт 3, бит 6
+        rol     ch,2
+        rcl     ah,1            ;Байт 2, бит 7
+        rol     ch,1
+        rcl     bl,1            ;Байт 3, бит 7
+        rol     ch,2
+        rcl     al,1            ;Байт 4, бит 6
+        rol     ch,1
+        rcl     al,1            ;Байт 4, бит 7
+        rol     ch,3
+        rcl     al,1            ;Байт 4, бит 8
+        rol     dh,1
+        rcl     ah,1            ;Байт 2, бит 8
+        ror     dl,4
+        rcl     bl,1            ;Байт 3, бит 8
+
+endm    PC2_FOR_D

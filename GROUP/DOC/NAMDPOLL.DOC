@@ -1,0 +1,31 @@
+
+
+                         NamedPoll (tm) Specification
+                      Copyright (C) SantaFox Team, 1996
+
+
+ Структура файла <FLAGS>\*.npl
+ -----------------------------
+
+ ASCII-файл, каждая строка которой содержит определенную информацию.
+
+
+1. Dial prefix
+2. Phone number
+3. Program to execute (optional)
+
+ Пример для <FLAGS>\IC_GUVD.npl :
+
+   ATDp
+   278-3913
+   cico.bat
+
+ Заполнить в NodeEntry
+ ---------------------
+
+0. NamedPoll == (true)
+1. Dial -- префикс
+2. Telephone -- телефон
+3. Name -- имя системы
+4. ZMode == tzMode(zmbNorm)
+5. Wait == 0
